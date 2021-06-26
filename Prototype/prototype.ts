@@ -7,8 +7,14 @@ class Cars {
   outPut(): string {
     return `${this.user} have ${this.count} cars`;
   }
+  clone():this {
+    return Object.create(this);
+  }
 }
-const user1 = new Cars("Denis");
-console.log(user1.outPut());
-const user2 = new Cars("Stepan");
-console.log(user2.outPut());
+const user = new Cars("Denis");
+const userClone = user.clone();
+console.log(user.outPut());
+console.log(userClone.outPut());
+
+
+

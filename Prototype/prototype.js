@@ -6,9 +6,12 @@ var Cars = /** @class */ (function () {
     Cars.prototype.outPut = function () {
         return this.user + " have " + this.count + " cars";
     };
+    Cars.prototype.clone = function () {
+        return Object.create(this);
+    };
     return Cars;
 }());
-var user1 = new Cars("Denis");
-console.log(user1.outPut());
-var user2 = new Cars("Stepan");
-console.log(user2.outPut());
+var user = new Cars("Denis");
+var userClone = user.clone();
+console.log(user.outPut());
+console.log(userClone.outPut());
