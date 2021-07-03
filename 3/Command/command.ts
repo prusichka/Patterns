@@ -1,59 +1,59 @@
-class Bulb {
-  on(): any {
-    console.log("Bulb has been lit");
+class Driver {
+  command: Driver;
+  constructor(command: Driver) {
+    this.command = command;
   }
-  off(): any {
-    console.log("The light was off");
-  }
-}
-interface Command {
-  execute(): any;
-  undo(): any;
-  redo(): any;
-}
-
-class TurnOnCommand implements Command {
-  bulb: Bulb;
-  constructor(bulb: any) {
-    this.bulb = bulb;
-  }
-  execute(): Bulb {
-    return this.bulb.on();
-  }
-  undo(): Bulb {
-    return this.bulb.off();
-  }
-  redo(): Bulb {
-    return this.execute();
+  execute(){
+    this.command.execute();
   }
 }
-class TurnOffCommand implements Command {
-  bulb: Bulb;
-  constructor(bulb: any) {
-    this.bulb = bulb;
+class Engine {
+  state: boolean;
+  constructor() {
+    this.state = false;
   }
-  execute(): Bulb {
-    return this.bulb.off();
+  on() {
+    this.state = true;
+    console.log(`Engine status <<ON>>`);
   }
-  undo(): Bulb {
-    return this.bulb.on();
-  }
-  redo(): Bulb {
-    return this.execute();
+  off() {
+    this.state = false;
+    console.log(`Engine status <<OFF>>`);
   }
 }
 
-class RemoteControl {
-  submit(command) {
-    command.execute();
+class StartEngine {
+  command : Driver
+  engine: Engine;
+  constructor(engine: Engine) {
+    this.engine = engine;
+  }
+  execute() {
+    this.engine.on();
+  }
+}
+class OffEngine {
+  command : Driver
+  engine: Engine;
+  constructor(engine: Engine) {
+    this.engine = engine;
+  }
+  execute() {
+    this.engine.off();
   }
 }
 
-const bulb = new Bulb();
+const engine = new Engine();
 
-const turnOn = new TurnOnCommand(bulb);
-const turnOff = new TurnOffCommand(bulb);
 
-const remote = new RemoteControl();
-remote.submit(turnOn);
-remote.submit(turnOff);
+const onStartCommand = new StartEngine(engine);
+const driver = new Driver(onStartCommand);
+driver.execute();
+console.log(engine);
+
+
+const offCommand = new OffEngine(engine)
+const driver2 = new Driver(offCommand);
+driver2.execute();
+console.log(engine);
+
