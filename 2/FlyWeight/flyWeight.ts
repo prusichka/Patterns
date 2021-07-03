@@ -1,42 +1,30 @@
-class RandomAlc {}
-
-class Alcohol {
-  availableAlc: {};
-  constructor() {
-    this.availableAlc = {};
-  }
-
-  make(preference) {
-    this.availableAlc[preference] =
-      this.availableAlc[preference] || new RandomAlc();
-    return this.availableAlc[preference];
+class Auto {
+  model: string;
+  constructor(modelName: string) {
+    this.model = modelName;
   }
 }
 
-class AlcShop {
-  acl: any;
-  orders: any;
-  constructor(acl) {
-    this.acl = acl;
-    this.orders = [];
+class AutoFactory {
+  _models: Auto[];
+  constructor(_model?: string) {
+    this._models = [];
   }
-
-  takeOrder(alcType : string, table : number) {
-    this.orders[table] = this.acl.make(alcType);
+  create(name: string): Object {
+    let auto = this._models[name];
+    if (auto) return auto;
+    console.count("model");
+    this._models[name] = new Auto(name);
+    return this._models[name];
   }
-
-  serve(alcType : string) {
-    this.orders.forEach((order,index) => {
-      console.log(`Serving ${alcType}  to table#` + index);
-    });
+  getInfoModel(): void{
+    console.table(this._models)
   }
 }
+const factory = new AutoFactory();
+let car1 = factory.create('BMW')
+let car2 = factory.create('Audi')
+let car3 =factory.create('Tesla')
+let car4 = factory.create('Tesla')
 
-const teaMaker = new Alcohol();
-const shop = new AlcShop(teaMaker);
-
-shop.takeOrder("Viski", 1);
-shop.takeOrder("Rom", 2);
-shop.takeOrder("Beer", 5);
-
-shop.serve('Viski');
+factory.getInfoModel();
